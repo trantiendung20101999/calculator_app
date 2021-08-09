@@ -20,4 +20,5 @@
     <string name="text_bracket_close">)</string>
     <string name="text_dot">.</string>
     <string name="text_clear_all">AC</string>
+    <string name="text_sun_calculator">Sun* Calculator</string>
 </resources>

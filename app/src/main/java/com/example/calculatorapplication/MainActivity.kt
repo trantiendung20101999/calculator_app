@@ -83,30 +83,31 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
 
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View?) = with(binding) {
         when (v) {
-            binding.buttonAdd -> addTextToTextView(binding.buttonAdd.text.toString(),binding.textDisplay)
-            binding.buttonSub -> addTextToTextView(binding.buttonSub.text.toString(),binding.textDisplay)
-            binding.buttonMul -> addTextToTextView(binding.buttonMul.text.toString(),binding.textDisplay)
-            binding.buttonDiv -> addTextToTextView(binding.buttonDiv.text.toString(),binding.textDisplay)
-            binding.buttonAllClear -> addTextToTextView(binding.buttonAllClear.text.toString(),binding.textDisplay)
-            binding.buttonBracketOpen -> addTextToTextView(binding.buttonBracketOpen.text.toString(),binding.textDisplay)
-            binding.buttonBracketClose -> addTextToTextView(binding.buttonBracketClose.text.toString(),binding.textDisplay)
-            binding.buttonDot -> addTextToTextView(binding.buttonDot.text.toString(),binding.textDisplay)
-            binding.buttonOne -> addTextToTextView(binding.buttonOne.text.toString(),binding.textDisplay)
-            binding.buttonTwo -> addTextToTextView(binding.buttonTwo.text.toString(),binding.textDisplay)
-            binding.buttonThree -> addTextToTextView(binding.buttonThree.text.toString(),binding.textDisplay)
-            binding.buttonFour -> addTextToTextView(binding.buttonFour.text.toString(),binding.textDisplay)
-            binding.buttonFive -> addTextToTextView(binding.buttonFive.text.toString(),binding.textDisplay)
-            binding.buttonSix -> addTextToTextView(binding.buttonSix.text.toString(),binding.textDisplay)
-            binding.buttonSeven -> addTextToTextView(binding.buttonSeven.text.toString(),binding.textDisplay)
-            binding.buttonEight -> addTextToTextView(binding.buttonEight.text.toString(),binding.textDisplay)
-            binding.buttonNine -> addTextToTextView(binding.buttonNine.text.toString(),binding.textDisplay)
-            binding.buttonZero -> addTextToTextView(binding.buttonZero.text.toString(),binding.textDisplay)
-            binding.buttonEqual -> binding.textResult.text = evaluate(binding.textDisplay.text.toString()).toString()
+            buttonAdd -> addTextToTextView(buttonAdd.text.toString(), textDisplay)
+            buttonSub -> addTextToTextView(buttonSub.text.toString(), textDisplay)
+            buttonMul -> addTextToTextView(buttonMul.text.toString(), textDisplay)
+            buttonDiv -> addTextToTextView(buttonDiv.text.toString(), textDisplay)
+            buttonAllClear -> textDisplay.text = EMPTY_STRING
+            buttonBracketOpen -> addTextToTextView(buttonBracketOpen.text.toString(), textDisplay)
+            buttonBracketClose -> addTextToTextView(buttonBracketClose.text.toString(), textDisplay)
+            buttonDot -> addTextToTextView(buttonDot.text.toString(), textDisplay)
+            buttonOne -> addTextToTextView(buttonOne.text.toString(), textDisplay)
+            buttonTwo -> addTextToTextView(buttonTwo.text.toString(), textDisplay)
+            buttonThree -> addTextToTextView(buttonThree.text.toString(), textDisplay)
+            buttonFour -> addTextToTextView(buttonFour.text.toString(), textDisplay)
+            buttonFive -> addTextToTextView(buttonFive.text.toString(), textDisplay)
+            buttonSix -> addTextToTextView(buttonSix.text.toString(), textDisplay)
+            buttonSeven -> addTextToTextView(buttonSeven.text.toString(), textDisplay)
+            buttonEight -> addTextToTextView(buttonEight.text.toString(), textDisplay)
+            buttonNine -> addTextToTextView(buttonNine.text.toString(), textDisplay)
+            buttonZero -> addTextToTextView(buttonZero.text.toString(), textDisplay)
+            buttonEqual -> textResult.text = evaluate(textDisplay.text.toString()).toString()
 
         }
     }
+
 
     private fun addTextToTextView(text: String, textView: TextView) {
         var textAfterChange = textView.text.toString()
@@ -141,7 +142,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
                 else -> {
                     if (num != EMPTY_STRING) stackValues.push(num.toDouble())
                     num = EMPTY_STRING
-                    while (!stackOperations.isEmpty() && hasPrecedence(expression[i],stackOperations.peek()))
+                    while (!stackOperations.isEmpty() && checkPriority(expression[i],stackOperations.peek()))
                         stackValues.push(executeOperation(
                                 stackOperations.pop(),
                                 stackValues.pop(),
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
             }
             if (i == expression.length -1 && num != EMPTY_STRING) stackValues.push(num.toDouble())
         }
-        while (!stackOperations.empty())
+        while (stackOperations.isNotEmpty())
             stackValues.push(executeOperation(
                     stackOperations.pop(),
                     stackValues.pop(),
@@ -161,7 +162,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener {
         return stackValues.pop()
     }
 
-    private fun hasPrecedence(op1: Char, op2: Char): Boolean {
+    private fun checkPriority(op1: Char, op2: Char): Boolean {
         if (op2 == OPEN_BRACKET || op2 == CLOSE_BRACKET) return false
         return if ((op1 == OPERATION_MUL || op1 == OPERATION_DIV) && (op2 == OPERATION_ADD || op2 == OPERATION_SUB)) false else true
     }
